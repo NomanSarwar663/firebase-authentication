@@ -31,7 +31,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import Transitions from 'ui-component/extended/Transitions';
-import User1 from 'assets/images/users/user-round.svg';
+// import User1 from 'assets/images/users/user-round.svg';
 
 // assets
 import { IconLogout, IconSettings, IconUser } from '@tabler/icons';
@@ -105,20 +105,20 @@ const ProfileSection = () => {
                         lineHeight: 0
                     }
                 }}
-                icon={
-                    <Avatar
-                        src={User1}
-                        sx={{
-                            ...theme.typography.mediumAvatar,
-                            margin: '8px 0 8px 8px !important',
-                            cursor: 'pointer'
-                        }}
-                        ref={anchorRef}
-                        aria-controls={open ? 'menu-list-grow' : undefined}
-                        aria-haspopup="true"
-                        color="inherit"
-                    />
-                }
+                // icon={
+                //     <Avatar
+                //         src={User1}
+                //         sx={{
+                //             ...theme.typography.mediumAvatar,
+                //             margin: '8px 0 8px 8px !important',
+                //             cursor: 'pointer'
+                //         }}
+                //         ref={anchorRef}
+                //         aria-controls={open ? 'menu-list-grow' : undefined}
+                //         aria-haspopup="true"
+                //         color="inherit"
+                //     />
+                // }
                 label={<IconSettings stroke={1.5} size="1.5rem" color={theme.palette.primary.main} />}
                 variant="outlined"
                 ref={anchorRef}

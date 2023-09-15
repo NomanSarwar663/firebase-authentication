@@ -120,3 +120,20 @@
         transform: translateX(10px);
     }
 }
+
+.rdw-editor-toolbar{
+    background-color: #f1f1f1;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.sigCanvas{
+    background-color:#f1f1f1 !important;
+}
+
+.css-1dcl7q3-MuiModal-root-MuiDrawer-root{
+    position: fixed;
+    inset: 0px;
+    visibility: visible;
+    z-index: 1200;
+}

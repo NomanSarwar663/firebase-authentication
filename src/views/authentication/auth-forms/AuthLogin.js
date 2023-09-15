@@ -33,7 +33,7 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import Google from 'assets/images/icons/social-google.svg';
+// import Google from 'assets/images/icons/social-google.svg';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -74,9 +74,9 @@ const FirebaseLogin = ({ ...others }) => {
                                 borderColor: theme.palette.grey[100]
                             }}
                         >
-                            <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
+                            {/* <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
                                 <img src={Google} alt="google" width={16} height={16} style={{ marginRight: matchDownSM ? 8 : 16 }} />
-                            </Box>
+                            </Box> */}
                             Sign in with Google
                         </Button>
                     </AnimateButton>
