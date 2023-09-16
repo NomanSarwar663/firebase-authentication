@@ -10,23 +10,15 @@ import {
     Box,
     Chip,
     ClickAwayListener,
-    Divider,
-    Grid,
-    InputAdornment,
     List,
     ListItemButton,
     ListItemIcon,
     ListItemText,
-    OutlinedInput,
     Paper,
     Popper,
     Stack,
-    Switch,
     Typography
 } from '@mui/material';
-
-// third-party
-import PerfectScrollbar from 'react-perfect-scrollbar';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
@@ -34,17 +26,17 @@ import Transitions from 'ui-component/extended/Transitions';
 // import User1 from 'assets/images/users/user-round.svg';
 
 // assets
-import { IconLogout, IconSettings, IconUser } from '@tabler/icons';
+import { IconLogout, IconSettings, IconUserCircle, IconKey } from '@tabler/icons';
+import { roles } from 'constants/constants';
 
 // ==============================|| PROFILE MENU ||============================== //
 
 const ProfileSection = () => {
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
+    const { user } = useSelector((state) => state.user);
     const navigate = useNavigate();
 
-    const [sdm, setSdm] = useState(true);
-    const [value, setValue] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const [open, setOpen] = useState(false);
     /**
@@ -52,7 +44,8 @@ const ProfileSection = () => {
      * */
     const anchorRef = useRef(null);
     const handleLogout = async () => {
-        console.log('Logout');
+        localStorage.removeItem('token');
+        navigate('/login');
     };
 
     const handleClose = (event) => {
@@ -62,14 +55,6 @@ const ProfileSection = () => {
         setOpen(false);
     };
 
-    const handleListItemClick = (event, index, route = '') => {
-        setSelectedIndex(index);
-        handleClose(event);
-
-        if (route && route !== '') {
-            navigate(route);
-        }
-    };
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
     };
@@ -105,20 +90,21 @@ const ProfileSection = () => {
                         lineHeight: 0
                     }
                 }}
-                // icon={
-                //     <Avatar
-                //         src={User1}
-                //         sx={{
-                //             ...theme.typography.mediumAvatar,
-                //             margin: '8px 0 8px 8px !important',
-                //             cursor: 'pointer'
-                //         }}
-                //         ref={anchorRef}
-                //         aria-controls={open ? 'menu-list-grow' : undefined}
-                //         aria-haspopup="true"
-                //         color="inherit"
-                //     />
-                // }
+                icon={
+                    <Avatar
+                        sx={{
+                            ...theme.typography.mediumAvatar,
+                            margin: '8px 0 8px 8px !important',
+                            cursor: 'pointer'
+                        }}
+                        ref={anchorRef}
+                        aria-controls={open ? 'menu-list-grow' : undefined}
+                        aria-haspopup="true"
+                        color="inherit"
+                    >
+                        {user?.name[0]}
+                    </Avatar>
+                }
                 label={<IconSettings stroke={1.5} size="1.5rem" color={theme.palette.primary.main} />}
                 variant="outlined"
                 ref={anchorRef}
@@ -153,73 +139,106 @@ const ProfileSection = () => {
                                     <Box sx={{ p: 2 }}>
                                         <Stack>
                                             <Stack direction="row" spacing={0.5} alignItems="center">
-                                                <Typography variant="h4">Good Morning,</Typography>
-                                                <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                                                    Johne Doe
+                                                <Typography variant="h4" sx={{ fontWeight: 400 }}>
+                                                    Hello,
+                                                </Typography>
+                                                <Typography component="span" variant="h4" sx={{ textTransform: 'capitalize' }}>
+                                                    {user?.name || 'loading...'}
                                                 </Typography>
                                             </Stack>
                                         </Stack>
-                                        <Divider />
                                     </Box>
-                                    <PerfectScrollbar style={{ height: '100%', maxHeight: 'calc(100vh - 250px)', overflowX: 'hidden' }}>
-                                        <Box sx={{ pt: 0, px: 2, pb: 2 }}>
-                                            <List
-                                                component="nav"
+                                    <Box sx={{ px: 2, pb: 2 }}>
+                                        <List
+                                            component="nav"
+                                            sx={{
+                                                width: '100%',
+                                                maxWidth: 350,
+                                                minWidth: 300,
+                                                backgroundColor: theme.palette.background.paper,
+                                                borderRadius: '10px',
+                                                [theme.breakpoints.down('md')]: {
+                                                    minWidth: '100%'
+                                                },
+                                                '& .MuiListItemButton-root': {
+                                                    mt: 0.5
+                                                }
+                                            }}
+                                        >
+                                            <ListItemButton
                                                 sx={{
-                                                    width: '100%',
-                                                    maxWidth: 350,
-                                                    minWidth: 300,
-                                                    backgroundColor: theme.palette.background.paper,
-                                                    borderRadius: '10px',
-                                                    [theme.breakpoints.down('md')]: {
-                                                        minWidth: '100%'
-                                                    },
-                                                    '& .MuiListItemButton-root': {
-                                                        mt: 0.5
+                                                    borderRadius: `${customization.borderRadius}px`,
+                                                    '&:hover': {
+                                                        backgroundColor: theme.palette.primary.light,
+                                                        '& .MuiListItemIcon-root': {
+                                                            color: theme.palette.primary.main
+                                                        }
                                                     }
                                                 }}
+                                                selected={selectedIndex === 4}
+                                                onClick={(e) => {
+                                                    navigate(user?.role === roles.user ? '/dashboard/profile' : '/dashboard/admin/profile');
+                                                    handleClose(e);
+                                                }}
                                             >
-                                                <ListItemButton
-                                                    sx={{ borderRadius: `${customization.borderRadius}px` }}
-                                                    selected={selectedIndex === 1}
-                                                    onClick={(event) => handleListItemClick(event, 1, '/user/profile')}
-                                                >
-                                                    <ListItemIcon>
-                                                        <IconUser stroke={1.5} size="1.3rem" />
-                                                    </ListItemIcon>
-                                                    <ListItemText
-                                                        primary={
-                                                            <Grid container spacing={1} justifyContent="space-between">
-                                                                <Grid item>
-                                                                    <Typography variant="body2">My Profile</Typography>
-                                                                </Grid>
-                                                                <Grid item>
-                                                                    <Chip
-                                                                        label="02"
-                                                                        size="small"
-                                                                        sx={{
-                                                                            bgcolor: theme.palette.warning.dark,
-                                                                            color: theme.palette.background.default
-                                                                        }}
-                                                                    />
-                                                                </Grid>
-                                                            </Grid>
-                                                        }
+                                                <ListItemIcon>
+                                                    <IconUserCircle
+                                                        stroke={1.5}
+                                                        size="1.3rem"
+                                                        style={{
+                                                            '&:hover': {
+                                                                backgroundColor: theme.palette.primary.light
+                                                            }
+                                                        }}
                                                     />
-                                                </ListItemButton>
-                                                <ListItemButton
-                                                    sx={{ borderRadius: `${customization.borderRadius}px` }}
-                                                    selected={selectedIndex === 4}
-                                                    onClick={handleLogout}
-                                                >
-                                                    <ListItemIcon>
-                                                        <IconLogout stroke={1.5} size="1.3rem" />
-                                                    </ListItemIcon>
-                                                    <ListItemText primary={<Typography variant="body2">Logout</Typography>} />
-                                                </ListItemButton>
-                                            </List>
-                                        </Box>
-                                    </PerfectScrollbar>
+                                                </ListItemIcon>
+                                                <ListItemText primary={<Typography variant="body2">My Profile</Typography>} />
+                                            </ListItemButton>
+                                            <ListItemButton
+                                                sx={{
+                                                    borderRadius: `${customization.borderRadius}px`,
+                                                    '&:hover': {
+                                                        backgroundColor: theme.palette.primary.light,
+                                                        '& .MuiListItemIcon-root': {
+                                                            color: theme.palette.primary.main
+                                                        }
+                                                    }
+                                                }}
+                                                selected={selectedIndex === 4}
+                                                onClick={(e) => {
+                                                    navigate(
+                                                        user?.role === roles.user
+                                                            ? '/dashboard/change-password'
+                                                            : '/dashboard/admin/change-password'
+                                                    );
+                                                    handleClose(e);
+                                                }}
+                                            >
+                                                <ListItemIcon>
+                                                    <IconKey stroke={1.5} size="1.3rem" />
+                                                </ListItemIcon>
+                                                <ListItemText primary={<Typography variant="body2">Change Password</Typography>} />
+                                            </ListItemButton>
+                                            <ListItemButton
+                                                sx={{
+                                                    borderRadius: `${customization.borderRadius}px`,
+                                                    '&:hover': {
+                                                        backgroundColor: theme.palette.primary.light,
+                                                        '& .MuiListItemIcon-root': {
+                                                            color: theme.palette.primary.main
+                                                        }
+                                                    }
+                                                }}
+                                                selected={selectedIndex === 4}
+                                                onClick={handleLogout}
+                                            >
+                                                <ListItemIcon>
+                                                    <IconLogout stroke={1.5} size="1.3rem" />
+                                                </ListItemIcon>
+                                                <ListItemText primary={<Typography variant="body2">Logout</Typography>} />
+                                            </ListItemButton>
+                                        </List>
+                                    </Box>
                                 </MainCard>
                             </ClickAwayListener>
                         </Paper>
