@@ -1,27 +1,32 @@
 // material-ui
-import { Typography } from '@mui/material';
+import { CircularProgress, Typography } from '@mui/material';
 
 // project imports
 import NavGroup from './NavGroup';
-import menuItem from 'menu-items';
+import GetMenuItems from 'menu-items';
 
 // ==============================|| SIDEBAR MENU LIST ||============================== //
 
 const MenuList = () => {
-    const navItems = menuItem.items.map((item) => {
-        switch (item.type) {
-            case 'group':
-                return <NavGroup key={item.id} item={item} />;
-            default:
-                return (
-                    <Typography key={item.id} variant="h6" color="error" align="center">
-                        Menu Items Error
-                    </Typography>
-                );
-        }
-    });
+    const menuItems = GetMenuItems();
+    if (menuItems) {
+        const navItems = menuItems.items.map((item) => {
+            switch (item.type) {
+                case 'group':
+                    return <NavGroup key={item.id} item={item} />;
+                default:
+                    return (
+                        <Typography key={item.id} variant="h6" color="error" align="center">
+                            Menu Items Error
+                        </Typography>
+                    );
+            }
+        });
 
-    return <>{navItems}</>;
+        return <>{navItems}</>;
+    } else {
+        <CircularProgress />;
+    }
 };
 
 export default MenuList;
