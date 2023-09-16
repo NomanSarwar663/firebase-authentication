@@ -1,22 +1,22 @@
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-
 // material-ui
-import { ButtonBase } from '@mui/material';
-
+import { ButtonBase, Typography } from '@mui/material';
 // project imports
 import config from 'config';
-import Logo from 'ui-component/Logo';
-import { MENU_OPEN } from 'store/actions';
-
+import { useSelector } from 'react-redux';
+import { roles } from 'constants/constants';
+import { getDefaultPath } from 'helpers/functions';
 // ==============================|| MAIN LOGO ||============================== //
 
 const LogoSection = () => {
-    const defaultId = useSelector((state) => state.customization.defaultId);
-    const dispatch = useDispatch();
+    // const { user } = useSelector((state) => state.user);
+    // const defaultPath = getDefaultPath(user?.role) ?? '/';
+
+    const defaultPath = '/';
+
     return (
-        <ButtonBase disableRipple onClick={() => dispatch({ type: MENU_OPEN, id: defaultId })} component={Link} to={config.defaultPath}>
-            <Logo />
+        <ButtonBase disableRipple component={Link} to={defaultPath}>
+            <Typography variant="h2">Money Cube</Typography>
         </ButtonBase>
     );
 };
